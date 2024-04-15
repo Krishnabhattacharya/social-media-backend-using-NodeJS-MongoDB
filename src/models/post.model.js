@@ -13,7 +13,7 @@ const postSchema = mongoose.Schema({
     },
     commment: [{
         type: mongoose.Types.ObjectId,
-        ref: "Commnet"
+        ref: "Comment"
     }],
     like: [{
         type: mongoose.Types.ObjectId,
@@ -27,12 +27,12 @@ const commentSchema = mongoose.Schema({
         required: true
     },
     author: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: "User",
         required: true
     },
     post: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: "Post",
         required: true
     },
@@ -47,12 +47,12 @@ const likeShema = mongoose.Schema({
         default: false
     },
     author: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: "User",
         required: true
     },
     post: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: "Post",
         required: true
     },
@@ -62,6 +62,7 @@ const likeShema = mongoose.Schema({
     }
 
 }, { timestamps: true });
-export const Like = mongoose.model("Like", likeShema);
-export const Post = mongoose.model("Post", postSchema);
-export const Comment = mongoose.model("Comment", commentSchema);
+const Like = mongoose.model("Like", likeShema);
+const Post = mongoose.model("Post", postSchema);
+const CommentPost = mongoose.model("Comment", commentSchema);
+export { Post, Like, CommentPost }
