@@ -18,7 +18,10 @@ export const makePostController = async (req, res) => {
 }
 export const getAllPostController = async (req, res) => {
     try {
-        const post = await Post.find({}).limit(20).populate('author', 'name');
+        const post = await Post.find({}).limit(20).populate('author', 'name').populate('commment');
+        await Post.populate(post, {
+            path: 'commment.author'
+        });
         if (!post) {
             return res.status(404).json({ success: false, message: "No post Avaiable" });
         }
@@ -79,7 +82,10 @@ export const deletePostController = async (req, res) => {
 export const getPerUserPost = async (req, res) => {
     try {
         const id = req.user._id;
-        const post = await Post.find({ 'author': id }).limit(20).populate('author', 'name');
+        const post = await Post.find({ 'author': id }).limit(20).populate('author', 'name').populate('commment');
+        await Post.populate(post, {
+            path: 'commment.author'
+        });
         res.status(200).send({ success: true, posts: post });
     } catch (error) {
         res.status(500).send({

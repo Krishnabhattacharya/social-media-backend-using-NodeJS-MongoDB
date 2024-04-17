@@ -94,3 +94,18 @@ export const updateUserController = async (req, res) => {
         })
     }
 }
+export const searchuserController = async (req, res) => {
+    try {
+        const { name } = req.body;
+        const user = await User.find({ name: { '$regex': name, '$options': 'i' } });
+        res.status(200).send({
+            success: true,
+            user: user
+        })
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: error.message
+        })
+    }
+}
